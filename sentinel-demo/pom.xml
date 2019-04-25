@@ -39,6 +39,16 @@
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-core</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-transport-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-transport-netty-http</artifactId>
+            <version>1.6.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
