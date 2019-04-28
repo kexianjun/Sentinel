@@ -21,6 +21,8 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.alibaba.csp.sentinel.datasource.ReadableDataSource;
+import com.alibaba.csp.sentinel.datasource.zookeeper.ZookeeperDataSource;
 import com.alibaba.csp.sentinel.util.TimeUtil;
 import com.alibaba.csp.sentinel.Entry;
 import com.alibaba.csp.sentinel.SphU;
@@ -28,6 +30,8 @@ import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 
 /**
  * @author jialiang.linjl
@@ -59,7 +63,7 @@ public class FlowQpsDemo {
     }
 
     private static void initFlowQpsRule() {
-        List<FlowRule> rules = new ArrayList<FlowRule>();
+        /*List<FlowRule> rules = new ArrayList<FlowRule>();
         FlowRule rule1 = new FlowRule();
         rule1.setResource(KEY);
         // set limit qps to 20
@@ -67,7 +71,14 @@ public class FlowQpsDemo {
         rule1.setGrade(RuleConstant.FLOW_GRADE_QPS);
         rule1.setLimitApp("default");
         rules.add(rule1);
-        FlowRuleManager.loadRules(rules);
+        FlowRuleManager.loadRules(rules);*/
+
+        ReadableDataSource<String, List<FlowRule>> flowRuleDataSource =
+                new ZookeeperDataSource<>("127.0.0.1:2181",
+                        "/sentinel_rule_config/sentinel-demo-basic",
+                        source -> JSON.parseObject(source, new TypeReference<List<FlowRule>>() {}));
+        FlowRuleManager.register2Property(flowRuleDataSource.getProperty());
+
     }
 
     private static void simulateTraffic() {

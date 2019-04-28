@@ -82,7 +82,7 @@ public class ZookeeperDataSource<T> extends AbstractDataSource<String, T> {
 
     private void init(final String serverAddr, final List<AuthInfo> authInfos) {
         initZookeeperListener(serverAddr, authInfos);
-        loadInitialConfig();
+//        loadInitialConfig();
     }
 
     private void loadInitialConfig() {

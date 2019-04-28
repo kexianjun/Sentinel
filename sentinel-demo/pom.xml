@@ -15,6 +15,7 @@
     <properties>
         <java.source.version>1.8</java.source.version>
         <java.target.version>1.8</java.target.version>
+        <sentinel.transport>1.6.1-SNAPSHOT</sentinel.transport>
     </properties>
 
     <modules>
@@ -49,7 +50,11 @@
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-transport-netty-http</artifactId>
-            <version>1.6.0-SNAPSHOT</version>
+            <version>${sentinel.transport}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-zookeeper</artifactId>
         </dependency>
     </dependencies>
 
