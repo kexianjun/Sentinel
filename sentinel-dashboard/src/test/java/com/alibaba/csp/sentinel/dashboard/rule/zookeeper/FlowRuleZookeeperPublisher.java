@@ -9,6 +9,7 @@ import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.Stat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -22,14 +23,13 @@ public class FlowRuleZookeeperPublisher implements DynamicRulePublisher<List<Flo
     @Override
     public void publish(String app, List<FlowRuleEntity> rules) throws Exception {
         AssertUtil.notEmpty(app, "app name cannot be empty");
-        if (null == rules) {
-            return;
-        }
+
         String path = ZookeeperConfigUtil.getPath(app);
         Stat stat = zkClient.checkExists().forPath(path);
         if (stat == null) {
             zkClient.create().creatingParentContainersIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path, null);
         }
-        zkClient.setData().forPath(path, converter.convert(rules).getBytes());
+        byte[] data = CollectionUtils.isEmpty(rules) ? "".getBytes() : converter.convert(rules).getBytes();
+        zkClient.setData().forPath(path, data);
     }
 }

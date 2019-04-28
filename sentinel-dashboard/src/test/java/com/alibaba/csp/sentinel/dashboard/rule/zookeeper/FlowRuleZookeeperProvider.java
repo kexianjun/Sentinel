@@ -7,6 +7,7 @@ import org.apache.curator.framework.CuratorFramework;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component("flowRuleZookeeperPublisher")
@@ -22,7 +23,7 @@ public class FlowRuleZookeeperProvider implements DynamicRuleProvider<List<FlowR
         String zkPath = ZookeeperConfigUtil.getPath(appName);
         byte[] bytes = zkClient.getData().forPath(zkPath);
         if (null == bytes || bytes.length == 0) {
-            return null;
+            return new ArrayList<>();
         }
         String s = new String(bytes);
 
